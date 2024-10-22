@@ -1,11 +1,18 @@
 import {BiCalendarPlus} from 'react-icons/bi'
+import {useState} from "react";
 
 const AddApointment = () => {
-    return (
-        <div>
-            <button className="bg-blue-400 text-white px-2 py-3 w-full text-left rounded-t-md">
-                <div><BiCalendarPlus className="inline-block align-text-top"/> Add Appointment</div>
-            </button>
+    //toggleForm is going to allow our application to show or hide the rest of the form
+    /* useState work you create the name of the variable, and you create something that modifies that variable
+    usually function that you can call whenever you want to modify that variable
+    */
+    let [toggleForm, setToggleForm] = useState(false);
+    return (<div>
+        <button onClick={() => setToggleForm(!toggleForm)}
+                className={`text-white px-2 py-3 w-full text-left rounded-t-md ${toggleForm ? "bg-blue-500 rounded-t-md" : "bg-blue-700 rounded-md"}`}>
+            <div><BiCalendarPlus className="inline-block align-text-top"/> Add Appointment</div>
+        </button>
+        {toggleForm &&
             <div className="border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4">
                 <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
                     <label htmlFor="ownerName" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
@@ -67,8 +74,9 @@ const AddApointment = () => {
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>)
+            </div>}
+
+    </div>)
 
 }
 export default AddApointment

@@ -1,8 +1,7 @@
 import {BiTrash} from "react-icons/bi";
-import {userState} from "react";
 
 const Appointmentinfo = ({appointment}) => {
-    
+
 
     return (
 
