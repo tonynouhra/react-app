@@ -8,6 +8,16 @@ function App() {
 
     //do retrive data using fetch
     let [appointmentList, setAppointmentList] = useState([]);
+    let [query, setQuery] = useState("");
+    const filterAppointments = appointmentList.filter(item => {
+        return (
+            item.petName.toLowerCase().includes(query.toLowerCase()) ||
+            item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+            item.aptNotes.toLowerCase().includes(query.toLowerCase())
+
+        )
+    })
+
     const fetchData = useCallback(() => {
         fetch('./data.json')
             .then(response => response.json())
@@ -24,13 +34,16 @@ function App() {
         <h1 className="text-5xl"><BiCalendar className="inline-block text-amber-950"/>
             your Appointments</h1>
         <AddApointment/>
-        <Search/>
+
+
+        <Search query={query} onQueryChange={myQuery => setQuery(myQuery)}/>
+
+
         <ul class="divide-y dicide-gray-200">
 
-            {appointmentList.map(appointment => (
-                <AppointmentInfo key={appointment.id} appointment={appointment} onDeleteAppointment={
-                    appointmentId => setAppointmentList(appointmentList.filter(appointment => appointment.id !== appointmentId)) //we are matching teh id
-                }/>))}
+            {filterAppointments.map(appointment => (<AppointmentInfo key={appointment.id} appointment={appointment}
+                                                                     onDeleteAppointment={appointmentId => setAppointmentList(appointmentList.filter(appointment => appointment.id !== appointmentId)) //we are matching teh id
+                                                                     }/>))}
 
 
         </ul>
