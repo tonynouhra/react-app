@@ -9,13 +9,19 @@ function App() {
     //do retrive data using fetch
     let [appointmentList, setAppointmentList] = useState([]);
     let [query, setQuery] = useState("");
+    let [sortBY, setSortBY] = useState("petName");
+    let [orderBy, setOrderBy] = useState("asc");
+
     const filterAppointments = appointmentList.filter(item => {
         return (
             item.petName.toLowerCase().includes(query.toLowerCase()) ||
             item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
             item.aptNotes.toLowerCase().includes(query.toLowerCase())
 
-        )
+        )//wil compare between a and b do so sorting
+    }).sort((a, b) => {
+        let order = (orderBy === "asc") ? 1 : -1;
+        return (a[sortBY].toLowerCase() < b[sortBY].toLowerCase()) ? -1 * order : 1 * order;
     })
 
     const fetchData = useCallback(() => {
@@ -36,7 +42,12 @@ function App() {
         <AddApointment/>
 
 
-        <Search query={query} onQueryChange={myQuery => setQuery(myQuery)}/>
+        <Search query={query} onQueryChange={myQuery => setQuery(myQuery)}
+                orderBy={orderBy}
+                onOrderByChange={mySort => setOrderBy(mySort)}
+                sortBY={sortBY}
+                onSortByChange={mySort => setSortBY(mySort)}
+        />
 
 
         <ul class="divide-y dicide-gray-200">
